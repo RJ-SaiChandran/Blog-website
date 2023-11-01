@@ -1,0 +1,65 @@
+<%- include("partials/header"); -%>
+  <h1>Compose</h1>
+  <form class="" action="/compose" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>Title</label>
+      <input class="form-control" type="text" name="postTitle">
+      <label>Post</label>
+      <textarea class="form-control" name="postBody" rows="5" cols="30"></textarea>
+      <label>Links (one per line)</label>
+      <textarea class="form-control" id="editor" name="postLinks" rows="3" cols="30"></textarea>
+      <label>Website Name (corresponding to each link)</label>
+      <textarea class="form-control" name="postLinkNames" rows="3" cols="30"></textarea>
+      <label>Upload Images</label>
+      <input class="form-control" type="file" name="postImages" multiple>
+    </div>
+    <button class="btn" type="submit" name="button"> Compose
+    </button>
+  </form>
+  <%- include("partials/footer"); -%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <form action="/compose" method="post" enctype="multipart/form-data">
+    <div id="editor" name="post">
+    </div>
+    <button class="btn" type="submit" name="button">Comment</button>
+  </form> -->
+
+  <!-- views/create-blog.ejs -->
+  <!-- <form method="post" action="/compose">
+    <input type="text" name="title" placeholder="Blog Title" required>
+    <div id="editor-container"></div>
+    <input type="hidden" name="content" id="content">
+    <button type="submit">Create Blog</button>
+  </form>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script>
+    const quill = new Quill('#editor-container', {
+      theme: 'snow',
+    });
+
+    const form = document.querySelector('form');
+    form.addEventListener('submit', () => {
+      const content = quill.getContents();
+      document.querySelector('#content').value = JSON.stringify(content);
+    });
+  </script> -->
+

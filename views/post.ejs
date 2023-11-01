@@ -1,0 +1,64 @@
+<%- include("partials/header"); -%>
+
+  <h1 class="title">
+    <%= title %> <span>
+        <%= result.createdAt.toDateString() %>
+      </span>
+      <span>
+        <%= result.createdAt.toLocaleTimeString() %>
+      </span>
+  </h1>
+  <div class="share-buttons">
+    <a href="https://www.facebook.com/sharer.php?u=<%= encodeURIComponent(req.originalUrl) %>" target="_blank">
+      <i class="fab fa-facebook-square" style="color: blue; font-size: 25px;"></i>
+    </a>
+    <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(req.originalUrl) %>" target="_blank">
+      <i class="fab fa-twitter-square" style="color: #1DA1F2; font-size: 25px;"></i>
+    </a>
+    <a href="https://api.whatsapp.com/send?text=<%= encodeURIComponent(req.originalUrl) %>" target="_blank">
+      <i class="fab fa-whatsapp-square" style="color: #25D366; font-size: 25px;"></i>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= encodeURIComponent(req.originalUrl) %>"
+      target="_blank">
+      <i class="fab fa-linkedin" style="color: #0077B5; font-size: 25px;"></i>
+    </a>
+  </div>
+  <img src="/uploads/<%= images %>" alt="<%= title %>" class="post-image"
+    style="padding: 50px;width: 80%; height: 80%; display: block; margin: 0 auto;">
+  <p class="formatted-text content"><%-content%></p>
+  <h2 class="title">Links</h2>
+  <% for (const url of urls) { %>
+    <a href="<%= url.url %>" target="_blank" style="color: lightblue;">
+      <%= url.websiteName %>
+    </a>
+    <br>
+    <%}%>
+      <h2 class="title">Comments</h2>
+      <% for (const comment of comments) { %>
+        <div class="comment-container">
+          <p class="formatted-text content">Anonymous🧑‍💻:
+            <%= comment.comment %>
+          </p>
+          <% if (req.isAuthenticated() && req.user._id.equals(comment.username)) { %>
+            <form action="/posts/<%= result._id %>/delete-comment/<%= comment._id %>" method="POST">
+              <button class="button" type="submit">
+                <svg viewBox="0 0 448 512" class="svgIcon">
+                  <path
+                    d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z">
+                  </path>
+                </svg>
+              </button>
+            </form>
+            <% } %>
+        </div>
+        <% } %>
+          <form action="/comment" method="post">
+            <input type="hidden" name="postId" value="<%= result._id %>">
+            <textarea type="text" maxlength="400" name="text" class="input" pattern="\d+"
+              placeholder="Enter Your comment Here" rows="5" cols="30"></textarea>
+            <br>
+            <button class="btn" type="submit"> Comment
+            </button>
+          </form>
+
+          <%- include("partials/footer"); -%>
