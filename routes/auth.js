@@ -31,11 +31,19 @@ router.get(
 );
 
 router.get("/register", (req, res) => {
-  res.render("register");
+  if (!req.isAuthenticated()) {
+    res.render("register", { messages: req.flash() });
+  } else {
+    res.render("loggedin", { req: req });
+  }
 });
 
 router.get("/login", (req, res) => {
-  res.render("login");
+  if (!req.isAuthenticated()) {
+    res.render("login", { messages: req.flash() });
+  } else {
+    res.render("loggedin", { req: req });
+  }
 });
 
 const registrationValidation = [
@@ -46,17 +54,12 @@ const registrationValidation = [
 ];
 
 router.post("/register", (req, res) => {
-  // const errors = validationResult(req);
-
-  // if (!errors.isEmpty()) {
-  //   return res.render("register", { errors: errors.array() });
-  // }
-
   User.register(
     { username: req.body.username },
     req.body.password,
     function (err, user) {
       if (err) {
+        req.flash("error", "An error occurred. Please try again.");
         console.error(err);
         return res.redirect("/register");
       } else {
@@ -71,17 +74,21 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
+      req.flash("error", "An error occurred. Please try again.");
       console.log(err);
       return res.redirect("/login");
     }
     if (!user) {
-      return res.redirect("/register");
+      req.flash("error", "Invalid username or password.");
+      return res.redirect("/login");
     }
     req.login(user, (err) => {
       if (err) {
+        req.flash("error", "An error occurred during login. Please try again.");
         console.log(err);
         return res.redirect("/login");
       }
+      req.flash("success", "Login successful!");
       req.session.user = user;
       return res.redirect("/");
     });

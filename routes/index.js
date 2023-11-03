@@ -1,5 +1,6 @@
 const express = require("express");
 const rateLimit = require("express-rate-limit");
+const nodemailer = require("nodemailer");
 const router = express.Router();
 const Post = require("../models/post");
 const User = require("../models/user");
@@ -16,7 +17,7 @@ const limiter = rateLimit({
 });
 
 const commentLimiter = rateLimit({
-  windowMs: 60 * 1000,
+  windowMs: 60 * 2000,
   max: 3,
 });
 
@@ -40,7 +41,48 @@ router.get("/about", limiter, function (req, res) {
 });
 
 router.get("/contact", limiter, function (req, res) {
-  res.render("contact", { contactContent: contactContent, req: req });
+  res.render("contact", {
+    contactContent: contactContent,
+    req: req,
+    messages: req.flash(),
+  });
+});
+
+router.post("/contact", limiter, (req, res) => {
+  userEmail = req.body.email;
+  message = req.body.textarea;
+  if (!userEmail || !message) {
+    req.flash("error", "Please enter a valid email and message.");
+    res.redirect("/contact");
+  } else {
+    if (req.isAuthenticated()) {
+      const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+          user: process.env.ADMIN_LOGIN,
+          pass: process.env.GMAIL_PASS,
+        },
+      });
+      const mailOptions = {
+        from: process.env.ADMIN_LOGIN,
+        to: "rjsaichandran@yahoo.com",
+        subject: "Message from Blog website user!",
+        text: `Message from ${userEmail}: ${message}`,
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+        } else {
+          console.log("Email sent:", info.response);
+          res.redirect("/contact");
+        }
+      });
+    } else {
+      res.redirect("/login");
+    }
+    req.flash("success", "Your message has been sent!");
+    res.redirect("/contact");
+  }
 });
 
 router.get("/posts/:postName", limiter, function (req, res) {

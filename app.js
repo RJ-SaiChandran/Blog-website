@@ -7,6 +7,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github2").Strategy;
 const mongoose = require("mongoose");
+const flash = require("connect-flash");
 const routes = require("./routes/index");
 const routesAuth = require("./routes/auth");
 const routeAdmin = require("./routes/admin");
@@ -24,6 +25,7 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
