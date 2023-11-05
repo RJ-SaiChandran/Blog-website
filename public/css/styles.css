@@ -4,6 +4,7 @@ html {
 }
 
 body {
+  width: 100%;
   line-height: 1.6;
 }
 
@@ -32,6 +33,31 @@ a:hover {
 .navbar-nav li a:hover {
   color: #ad7be9 !important;
 }
+
+.menu-icon{
+  display: none;
+}
+
+@media(max-width:768px){
+  .menu-icon{
+    display: block;
+    float: right;
+    padding: 10px;
+    font-size: 20px;
+  }
+  .navbar-brand{
+    line-height: 20px;
+    
+  }
+  
+  .hides{
+    position: absolute;
+    top: -200px;
+
+  }
+}
+
+
 /* 1abc9c */
 .footer-padding {
   padding-bottom: 60px;
@@ -69,7 +95,9 @@ span {
 
 .content {
   font-family: "Varela Round", sans-serif;
-  font-size: 17px;
+  padding: 2px 10px;
+  /* width: 9px; */
+  font-size: 12px;
   color: #3d5656;
   padding-bottom: 30px;
 }
@@ -77,7 +105,7 @@ span {
 /* comment on post */
 .input {
   /* max-width: 190px; */
-  width: 400px;
+  width: 100%;
   padding: 12px;
   border: none;
   border-radius: 4px;
@@ -144,7 +172,7 @@ button:hover {
   color: black;
 }
 
-button:after {
+/* button:after {
   content: "";
   background: white;
   position: absolute;
@@ -155,7 +183,7 @@ button:after {
   bottom: 0;
   transform: skewX(-45deg) scale(0, 1);
   transition: all 0.5s;
-}
+} */
 
 button:hover:after {
   transform: skewX(-45deg) scale(1, 1);
@@ -301,7 +329,8 @@ button:hover:after {
 /* Contact Form */
 
 .form-container {
-  width: 400px;
+  width: 350px;
+  max-width: 100%;
   margin: 0 auto;
   /* background: linear-gradient(#212121, #212121) padding-box, */
   /* linear-gradient(145deg, transparent 35%, #e81cff, #40c9ff) border-box; */
