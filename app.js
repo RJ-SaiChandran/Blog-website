@@ -20,7 +20,7 @@ app.use(express.static("public"));
 
 app.use(
   session({
-    secret: "somecompli stuff here ig",
+    secret: process.env.APP_ID,
     resave: false,
     saveUninitialized: false,
   })
@@ -30,7 +30,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://Maans:Maan123@cluster0.iqmnxjq.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("mongodb://0.0.0.0:27017/blogDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -90,6 +90,6 @@ app.get("*", (req, res) => {
   res.render("failure");
 });
 
-app.listen(5000, function () {
+app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
