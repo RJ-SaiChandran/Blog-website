@@ -1,24 +1,29 @@
 <%- include("partials/header"); -%>
-  <h1 class="title">Home</h1>
-  <p>
-    <%= startingContent %>
-  </p>
-
+  <h1 class="title">Latest</h1>
   <% posts.forEach(function(post){ %>
-
-    <h1 class="title">
-      <%= post.title %>
-        <span>
-          <%= post.createdAt.toDateString() %>
-        </span>
-        <span>
-          <%= post.createdAt.toLocaleTimeString() %>
-        </span>
-    </h1>
-
-    <p class="content">
-      <%=post.content.substring(0, 200).replace( /(<([^>]+)>)/ig, '') + " ..." %>
-        <a href="/posts/<%=post._id%>">Read More</a>
-    </p>
-
-    <% }) %> <%- include("partials/footer"); -%>
+    <div class="post">
+      <div class="content-wrapper">
+        <div class="text-content">
+          <h2 class="title" style="font-weight: 500; letter-spacing: 2px;">
+            <a style="color: #ad7be9;" href="/posts/<%=post._id%>">
+              <%= post.title %>
+            </a>
+            <br>
+            <span>
+              <%= post.createdAt.toDateString() %>
+            </span>
+            <span>
+              <%= post.createdAt.toLocaleTimeString() %>
+            </span>
+          </h2>
+          <p class="content">
+            <%=post.content.substring(0, 400).replace( /(<([^>]+)>)/ig, '') + " ..." %>
+              <a href="/posts/<%=post._id%>">Read More</a>
+          </p>
+        </div>
+        <a href="/posts/<%=post._id%>"><img class="image"
+            src="/uploads/<%=post.images%>" alt=""></a>
+      </div>
+    </div>
+    <% }) %>
+      <%- include("partials/footer"); -%>

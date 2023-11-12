@@ -1,6 +1,7 @@
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const nodemailer = require("nodemailer");
+const Fuse = require("fuse.js");
 const router = express.Router();
 const Post = require("../models/post");
 const User = require("../models/user");
@@ -82,6 +83,30 @@ router.post("/contact", limiter, (req, res) => {
     }
     req.flash("success", "Your message has been sent!");
     res.redirect("/contact");
+  }
+});
+
+router.get("/search", async (req, res) => {
+  try {
+    const query = req.query.q;
+    console.log("Search Query:", query);
+
+    const allPosts = await Post.find();
+    // console.log('All Posts:', allPosts);
+
+    const fuseOptions = {
+      keys: ["title", "content"],
+    };
+
+    if (query && query.trim() !== "") {
+      const fuse = new Fuse(allPosts, fuseOptions);
+      const results = fuse.search(query);
+      res.render("search", { results, req: req });
+    } else {
+      res.render("search", { results: [], req: req });
+    }
+  } catch (err) {
+    console.log("Fuse Error:", err);
   }
 });
 

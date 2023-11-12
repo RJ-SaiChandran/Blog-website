@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 function authenticateAsMaster(req, res, next) {
-  if (req.isAuthenticated() && req.user.username === process.env.ADMIN_LOGIN) {
+  if (req.isAuthenticated() && req.user.googleId === process.env.ADMIN_LOGIN) {
     return next();
   } else {
     res.redirect("/login");
@@ -88,13 +88,13 @@ router.post(
             const transporter = nodemailer.createTransport({
               service: "Gmail",
               auth: {
-                user: process.env.ADMIN_LOGIN,
+                user: process.env.ADMIN_LOGIN_EMAIL,
                 pass: process.env.GMAIL_PASS,
               },
             });
             const toEmails = subscriberEmails.join(", ");
             const mailOptions = {
-              from: process.env.ADMIN_LOGIN,
+              from: process.env.ADMIN_LOGIN_EMAIL,
               to: toEmails,
               subject: "New Post Published",
               text: `A new post titled "${req.body.postTitle}" has been published. Check it out at: [insert post link here]`,

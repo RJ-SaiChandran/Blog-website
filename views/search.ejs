@@ -1,0 +1,24 @@
+<%- include("partials/header") -%>
+
+    <form action="/search" method="GET">
+        <div class="input-group mb-3" style="margin-top: 50px;">
+            <input type="text" name="q" class="form-control" placeholder="Search..." aria-label="Recipient's username"
+                aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+        </div>
+    </form>
+
+    <% if (results.length> 0) { %>
+        <ul>
+            <% results.forEach(post=> { %>
+                <li class="contentc"><a href="/posts/<%= post.item._id %>">
+                        <%= post.item.title %>
+                    </a></li>
+                <% }); %>
+        </ul>
+        <% } else { %>
+            <p>No results found.</p>
+            <% } %>
+
+
+                <%- include("partials/footer") -%>
