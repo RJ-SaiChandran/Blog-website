@@ -30,10 +30,13 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(`mongodb+srv://rjsaichandran:${process.env.MONGODB_PASS}@bytebuddies.ksd46k5.mongodb.net/?retryWrites=true&w=majority`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  `mongodb+srv://rjsaichandran:${process.env.MONGODB_PASS}@bytebuddies.ksd46k5.mongodb.net/?retryWrites=true&w=majority`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 passport.use(new LocalStrategy(User.authenticate()));
 
@@ -51,12 +54,18 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
+let callbackURL = "http://localhost:3000/auth/google/home";
+
+if (process.env.NODE_ENV === "production") {
+  callbackURL = "https://bytebuddies.onrender.com/auth/google/home";
+}
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/home",
+      callbackURL: callbackURL,
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     function (accessToken, refreshToken, profile, cb) {
