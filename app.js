@@ -30,7 +30,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://0.0.0.0:27017/blogDB", {
+mongoose.connect(`mongodb+srv://rjsaichandran:${process.env.MONGODB_PASS}@bytebuddies.ksd46k5.mongodb.net/?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
