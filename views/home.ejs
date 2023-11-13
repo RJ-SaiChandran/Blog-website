@@ -16,7 +16,7 @@
               <%= post.createdAt.toLocaleTimeString() %>
             </span>
           </h2>
-          <p class="content">
+          <p class="content2">
             <%=post.content.substring(0, 400).replace( /(<([^>]+)>)/ig, '') + " ..." %>
               <a href="/posts/<%=post._id%>">Read More</a>
           </p>
