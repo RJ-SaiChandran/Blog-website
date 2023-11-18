@@ -1,12 +1,12 @@
-<%- include("partials/header"); -%>
+<%- include("partials/header", {title: title}); -%>
 
   <h1 class="title">
     <%= title %>
     <br>
-     <span>
+     <span style="color: #777;">
         <%= result.createdAt.toDateString() %>
       </span>
-      <span>
+      <span style="color: #777;">
         <%= result.createdAt.toLocaleTimeString() %>
       </span>
   </h1>
